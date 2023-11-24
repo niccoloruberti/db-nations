@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class Main {
 	
@@ -19,6 +20,14 @@ public class Main {
 	
 	private static void milestone2() {
 		
+		Scanner in = new Scanner(System.in);
+		
+		System.out.println("Che regione vuoi ricercare?");
+		
+		String userSearch = in.nextLine();
+		
+		in.close();
+		
 		try (Connection con = DriverManager.getConnection(url, user, pws)) {  
 		  
 		  final String sql = " SELECT countries.name AS nazione, countries.country_id, regions.name AS regione, continents.name AS continente "
@@ -27,6 +36,7 @@ public class Main {
 			  			   + "		ON countries.region_id = regions.region_id"
 			  			   + "	JOIN continents"
 			  			   + "		ON regions.continent_id = continents.continent_id"
+			  			   + " WHERE countries.name LIKE '%" + userSearch + "%'"
 			  			   + "	ORDER BY countries.name ASC"
 			  			   + " ; ";		  
 		  
